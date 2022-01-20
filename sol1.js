@@ -9,14 +9,14 @@ for (const input of inputs) {
             prefixMax[input[0]] = {};
         }
         let current = prefixMax[input[0]];
-        for(const char of input.slice(1)) {
+        for(const char of input.slice(1)) {// O(n - 1)
             if (!current[char]) {
                 current[char] = {};
             }
             current = current[char];
         }
     }
-}
+}// O(n^2)
 // console.log('prefixMax', JSON.stringify(prefixMax));
 
 const prefix_popular = {
@@ -29,7 +29,7 @@ for (const i in inputs) {
     if (typeof input === 'string') {
         let current = prefix_count[input[0]];
         let char_com = input[0];
-        for(const char of input.slice(1)) {
+        for(const char of input.slice(1)) {// O(n - 1)
             char_com += char;
             const text_length = char_com.length;
             if (current[char].index) {
@@ -53,7 +53,7 @@ for (const i in inputs) {
             current = current[char];
         }
     }
-}
+}// O(n^2)
 // console.log('prefix_count', JSON.stringify(prefix_count));
 // console.log('prefix_popular', JSON.stringify(prefix_popular));
 
@@ -78,7 +78,7 @@ if (prefix_popular.list.length > 0) {
                 text: p.text,
             }];
         }
-    }
+    } // O(n)
 
     Object.values(group).map(g => {
         if (g.length === 1) {
@@ -87,16 +87,20 @@ if (prefix_popular.list.length > 0) {
             // more than 1
             // find longest text
             let long_text = g[0].text;
-            for (const in_group of g) {
+            for (const in_group of g) { // O(n)
                 if (in_group.text.length > long_text.length) {
                     long_text = in_group.text;
                 }
             }
             prefix_final.push(g.find(i => i.text === long_text).prefix);
         }
-    });
+    }); // O(n^2)
 }
 // console.log('prefix_final', JSON.stringify(prefix_final));
+
+// Total BigO   => O(n^2) + O(n^2) + O(n) + O(n^2)
+//              => O(3n^2 + n)
+//              => O(n^2)
 
 console.log('===================================================');
 console.log('========= Print the longest common prefix =========');
@@ -106,4 +110,6 @@ prefix_final.map(prefix => {
         return inputs[index];
     }).join(',')}`);
 });
+console.log('===================================================');
+console.log('================= BigO: O(n^2) ====================');
 console.log('===================================================');
